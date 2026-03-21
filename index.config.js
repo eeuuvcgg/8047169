@@ -77,38 +77,38 @@ var index_config_default = {
       address: "https://t4.jsnzkpg.uk"},
     {name: "👖天下丨网盘丨4K免扫码",
       address: "https://catbox.n13.club/18/影探影视.php"},
+    {name: "👖天下丨斗鱼丨直播",
+      address: "https://catbox.n13.club/ai/斗鱼直播.php"},
+      {name: "👖天下丨虎牙丨直播",
+      address: "https://php.doube.eu.org/spider/php/虎牙直播.php"},
+    {name: "👖天下丨酷狗丨音乐",
+      address: "http://sspa8.top:99/php/酷我.php"},
+    {name: "👖天下丨Emby丨嗅探",
+      address: "http://zhangqun1818.serv00.net:6628/?spider=emby"},
     {name: "👖天下丨瓜子丨影视",
       address: "https://catbox.n13.club/ai/瓜子影视.php"},
     {name: "👖天下丨荐片丨影视",
       address: "http://zhangqun1818.serv00.net:6628/?spider=荐片"},
-    {name: "👖天下丨清风丨影视",
-      address: "http://sspa8.top:8100/php/清风.php"},
-      {name: "👖天下丨人人丨影视",
-      address: "https://catbox.n13.club/18/人人影视.php"},
-      {name: "👖天下丨喜福丨短剧",
-      address: "https://catbox.n13.club/ai/喜福短剧.php"},
-      {name: "👖天下丨甜圈丨短剧",
-      address: "https://catbox.n13.club/ai/甜圈短剧.php"},
-    {name: "👖天下丨七猫丨短剧",
-      address: "http://zhangqun1818.serv00.net:6628/?spider=七猫短剧"},
-    {name: "👖天下丨西饭丨短剧",
-      address: "http://zhangqun1818.serv00.net:6628/?spider=西饭短剧"},
-    {name: "👖天下丨河马丨短剧",
-      address: "http://zhangqun1818.serv00.net:5052/?sp=河马短剧"},
-    {name: "👖天下丨旺旺丨短剧",
-      address: "http://zhangqun1818.serv00.net/ww.php"},
-    {name: "👖天下丨星阁丨短剧",
-      address: "https://catbox.n13.club/t9/xingzhige.php"},
-    {name: "👖天下丨央视丨栏目",
-      address: "https://catbox.n13.club/18/央视影视.php"}
-]
-},
+    {name: "👖天下丨凤凰丨FM",
+      address: "http://zhangqun1818.serv00.net:6628/?spider=凤凰fm"},
+    {name: "👖天下丨兔贝丨少儿",
+      address: "http://zhangqun1818.serv00.net:6628/?spider=兔小贝"}
+]},
   cms: {list: [
 {name: "👖天下丨暴风丨采集",
 address: "http://by.bfzyapi.com/api.php/provide/vod"},
 {name: "👖天下丨iQiYi丨采集",
 address: "https://iqiyizyapi.com/api.php/provide/vod"}
-]}
+]},
+  alist: [
+    {
+      name: "🐉神族九帝",
+      server: "https://alist.shenzjd.com"
+    },
+    {
+      name: "💢repl",
+      server: "https://ali.liucn.repl.co"
+    }
   ],
   color: [
     {
