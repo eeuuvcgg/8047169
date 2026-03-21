@@ -164,16 +164,7 @@ address: "http://by.bfzyapi.com/api.php/provide/vod"},
 {name: "👖天下丨iQiYi丨采集",
 address: "https://iqiyizyapi.com/api.php/provide/vod"}
 ]},
-  alist: [
-    {
-      name: "🐉神族九帝",
-      server: "https://alist.shenzjd.com"
-    },
-    {
-      name: "💢repl",
-      server: "https://ali.liucn.repl.co"
-    }
-  ],
+
   color: [
     {
       light: {
