@@ -60,16 +60,7 @@ var index_config_default = {
   pans: {
     list: []
   },
-   danmu: {
-    urls: [
-           { address: "https://logdanmu.dpdns.org", name: "默认1" },
-           { address: "https://fjj0417.dpdns.org/87654321", name: "默认2" }, 
-           { address: "https://dm.stardm.us.kg:443/87654321", name: "默认3" }, 
-           { address: "https://danmu.14812910.xyz/87654321", name: "默认4" }, 
-           { address: "https://313236.xyz/87654321", name: "默认5" }
-          ],
-    autoPush: true
-  },
+ 
  t4: {list: [
     {name: "✈️点我换线路",
       address: "http://zhangqun1818.serv00.net:6628/?spider=独播库"},
