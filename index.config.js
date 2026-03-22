@@ -73,8 +73,7 @@ var index_config_default = {
  t4: {list: [
     {name: "【点我】换线路",
       address: "http://zhangqun1818.serv00.net:6628/?spider=独播库"},
-    {name: "📺天下丨IPTV丨电视直播",
-      address: "https://t4.jsnzkpg.uk"},
+   
     {name: "👖天下丨网盘丨4K免扫码",
       address: "https://catbox.n13.club/18/影探影视.php"},
     {name: "👖天下丨斗鱼丨直播",
