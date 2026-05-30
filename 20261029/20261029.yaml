@@ -19,9 +19,9 @@ dns:
     fallback: [1.1.1.1, 8.8.8.8]
     fallback-filter: { geoip: true, geoip-code: CN, geosite: [gfw], ipcidr: [240.0.0.0/4], domain: [+.google.com, +.facebook.com, +.youtube.com] }
 proxies:
-    - { name: '微信：8047169', server: 108.181.24.53, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
+    - { name: '26-10-29', server: 108.181.24.53, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
     - { name: '买机场联系微信', server: 108.181.24.53, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
-    - { name: 天下机场, server: 108.181.24.53, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
+    - { name: 微信8047169, server: 108.181.24.53, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
     - { name: 🇺🇸美国洛杉矶1号, server: 108.181.24.53, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
     - { name: 🇺🇸美国洛杉矶2号, server: 108.181.23.123, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
     - { name: 🇺🇸美国洛杉矶3号, server: 108.181.23.231, port: 50000, ports: 50000-53000, mport: 50000-53000, udp: true, skip-cert-verify: true, sni: www.microsoft.com, type: hysteria2, password: 755f32be-b3b7-420d-aead-6eecefe7042e }
