@@ -92,6 +92,17 @@
         },
         
         {
+            "key": "py_搜剧AI.pyy",
+            "name": "📱搜剧ᵖʸ｜APP",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/搜剧AI.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+        {
             "key": "py_py_mj2046.py",
             "name": "📱美剧2046ᵖʸ｜APP",
             "type": 3,
