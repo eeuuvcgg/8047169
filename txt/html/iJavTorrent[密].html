@@ -1,0 +1,1958 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>磁力站源 - iJavTorrent</title>
+    <style>
+        /* ===== 基础样式 ===== */
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #e8edf2;
+            padding-top: 12px;
+        }
+
+        html.fm-native body {
+            padding-top: 0px;
+        }
+
+        html:not(.fm-native),
+        html:not(.fm-native) body {
+            background: #1a1e24;
+        }
+
+        :root {
+            --panel-rgb: 30, 35, 42;
+            --panel: rgba(var(--panel-rgb), .72);
+            --panel-soft: rgba(var(--panel-rgb), .52);
+            --panel-strong: rgba(var(--panel-rgb), .88);
+            --line: rgba(255, 255, 255, .1);
+            --text-primary: #e8edf2;
+            --text-secondary: #a8b0ba;
+            --accent: #f0b34b;
+            --accent-dim: rgba(240, 179, 75, .2);
+            --card-radius: 12px;
+            --safe-top: 0px;
+            --safe-bottom: 0px;
+            --safe-left: 0px;
+            --safe-right: 0px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .app {
+            min-height: 100vh;
+            padding: calc(12px + var(--safe-top)) 12px calc(12px + var(--safe-bottom)) 12px;
+            background: transparent;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--panel-soft);
+            border-radius: var(--card-radius);
+            border: 1px solid var(--line);
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .header-brand img {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--panel-strong);
+            border: 1px solid var(--line);
+            color: var(--text-secondary);
+        }
+
+        .badge-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot.green { background: #4caf50; }
+        .dot.yellow { background: #f0b34b; }
+        .dot.red { background: #e74c3c; }
+        .dot.gray { background: #666; }
+
+        .search-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 160px;
+            padding: 10px 14px;
+            border-radius: var(--card-radius);
+            border: 1px solid var(--line);
+            background: var(--panel-soft);
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: var(--card-radius);
+            border: 1px solid var(--line);
+            background: var(--panel-soft);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .btn:hover,
+        .btn:focus {
+            background: var(--panel-strong);
+            border-color: var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #1a1e24;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: #e0a03a;
+            border-color: #e0a03a;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+		.filter-bar {
+			display: flex;
+			gap: 8px;
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			overflow-y: hidden;
+			margin-bottom: 16px;
+			padding-bottom: 4px;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+		}
+
+		.filter-bar::-webkit-scrollbar {
+			display: none;
+		}
+
+		.filter-chip {
+			padding: 8px 18px;
+			border-radius: 20px;
+			border: 1px solid var(--line);
+			background: var(--panel-soft);
+			color: var(--text-secondary);
+			font-size: 15px;
+			cursor: pointer;
+			transition: all .2s;
+			white-space: nowrap;
+			flex-shrink: 0;
+			user-select: none;
+		}
+
+		.filter-chip.active {
+			border-color: var(--accent);
+			color: var(--text-primary);
+			background: var(--accent-dim);
+		}
+
+		.filter-chip:hover,
+		.filter-chip:focus {
+			border-color: var(--accent);
+			color: var(--text-primary);
+		}
+
+        .stats {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .movie-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .movie-card {
+            background: var(--panel-soft);
+            border-radius: var(--card-radius);
+            border: 1px solid var(--line);
+            overflow: hidden;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .movie-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+        }
+
+        .movie-card .card-body {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+        }
+
+        .movie-card .poster-wrap {
+            flex: 0 0 280px;
+            width: 280px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--panel-strong);
+            position: relative;
+        }
+
+        .movie-card .poster-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        html.no-aspect-ratio .movie-card .poster-wrap img {
+            height: 158px;
+            width: 100%;
+        }
+        html.no-css-functions .movie-card .poster-wrap img {
+            height: 158px;
+            width: 100%;
+        }
+
+        .movie-card .poster-wrap .badges {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .movie-card .poster-wrap .badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, .8);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .15);
+            font-weight: 500;
+        }
+
+        .movie-card .poster-wrap .badge.uncen {
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+        .movie-card .poster-wrap .badge.decen {
+            border-color: #f0b34b;
+            color: #f0b34b;
+        }
+        .movie-card .poster-wrap .badge.leaked {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        .movie-card .poster-wrap .badge.vr {
+            border-color: #9b59b6;
+            color: #9b59b6;
+        }
+        .movie-card .poster-wrap .badge.rating {
+            background: rgba(240, 179, 75, .85);
+            color: #1a1e24;
+            border-color: var(--accent);
+        }
+
+        .movie-card .poster-wrap .placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--panel-strong);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .movie-card .info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .movie-card .title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .movie-card .meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+        }
+
+        .movie-card .meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .movie-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .movie-card .tags .tag {
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: var(--panel-strong);
+            border: 1px solid var(--line);
+            color: var(--text-secondary);
+        }
+
+        .movie-card .torrent-list {
+            margin-top: 8px;
+            border-top: 1px solid var(--line);
+            padding-top: 10px;
+        }
+
+        .movie-card .torrent-list .torrent-item {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px 14px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: var(--panel-strong);
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        .movie-card .torrent-list .torrent-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .movie-card .torrent-list .torrent-item .size {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        .movie-card .torrent-list .torrent-item .seeds {
+            color: #4caf50;
+            font-size: 12px;
+        }
+        .movie-card .torrent-list .torrent-item .leech {
+            color: #e74c3c;
+            font-size: 12px;
+        }
+        .movie-card .torrent-list .torrent-item .date {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .movie-card .torrent-list .torrent-item .type-badge {
+            font-size: 10px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+        }
+        .movie-card .torrent-list .torrent-item .type-badge.uncen {
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+        .movie-card .torrent-list .torrent-item .type-badge.decen {
+            border-color: #f0b34b;
+            color: #f0b34b;
+        }
+
+        .movie-card .torrent-list .torrent-item .actions {
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .movie-card .torrent-list .torrent-item .actions .btn {
+            padding: 2px 10px;
+            font-size: 11px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .loading .spinner {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--line);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+        .empty .icon {
+            font-size: 48px;
+            opacity: .4;
+            margin-bottom: 12px;
+        }
+
+        /* ★★★ 翻页按钮样式 ★★★ */
+        .pagination-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination-bar .page-btn {
+            padding: 8px 14px;
+            border-radius: var(--card-radius);
+            border: 1px solid var(--line);
+            background: var(--panel-soft);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+            min-width: 40px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .pagination-bar .page-btn:hover {
+            background: var(--panel-strong);
+            border-color: var(--accent);
+        }
+
+        .pagination-bar .page-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #1a1e24;
+            font-weight: 600;
+        }
+
+        .pagination-bar .page-btn.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        .pagination-bar .page-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 0 8px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: calc(20px + var(--safe-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--panel-strong);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: var(--card-radius);
+            border: 1px solid var(--line);
+            font-size: 14px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .tv-mode .movie-card:focus-within {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .tv-mode .btn:focus,
+        .tv-mode .filter-chip:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* 女优卡片专用样式 */
+        .actress-card .poster-wrap {
+            flex: 0 0 225px !important;
+            width: 225px !important;
+            height: 260px !important;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+        .actress-card .poster-wrap img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+        
+        @media (max-width: 768px) {
+            .app { padding: 8px; }
+            .movie-card .card-body {
+                flex-direction: column;
+                padding: 12px;
+            }
+            .movie-card .poster-wrap {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .movie-card .poster-wrap img {
+                width: 100%;
+                height: auto;
+            }
+            .movie-card .title { font-size: 15px; }
+            .movie-card .torrent-list .torrent-item { font-size: 12px; padding: 5px 6px; }
+            .actress-card .poster-wrap {
+                flex: 0 0 185px !important;
+                width: 185px !important;
+                height: 220px !important;
+            }
+            .actress-card .poster-wrap img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .movie-card .poster-wrap { max-width: 100%; }
+            .movie-card .title { font-size: 14px; }
+            .movie-card .torrent-list .torrent-item .actions .btn {
+                padding: 2px 6px;
+                font-size: 10px;
+            }
+            .actress-card .poster-wrap {
+                flex: 0 0 145px !important;
+                width: 145px !important;
+                height: 180px !important;
+            }
+            .actress-card .poster-wrap img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+        }
+
+        html.no-layout-gap .movie-card .card-body { gap: 12px; }
+        html.no-layout-gap .movie-card .meta { gap: 4px 10px; }
+        html.no-layout-gap .movie-card .tags { gap: 4px; }
+        html.no-layout-gap .filter-bar { gap: 6px; }
+        html.no-layout-gap .search-bar { gap: 6px; }
+        html.no-layout-gap .header-actions { gap: 6px; }
+        html.no-layout-gap .pagination-bar { gap: 6px; }
+    </style>
+</head>
+<body>
+    <div class="app" id="app">
+        <div class="toast" id="toast"></div>
+
+        <header class="header">
+            <div class="header-brand">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f0b34b'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='18' font-weight='bold' fill='%231a1e24'%3EJT%3C/text%3E%3C/svg%3E" alt="JT">
+                磁力站源 · 福利资源
+            </div>
+            <div class="header-actions">
+                <span class="badge-status" id="statusBadge">
+                    <span class="dot green" id="statusDot"></span>
+                    <span id="statusText">就绪</span>
+                </span>
+                <button class="btn btn-sm" id="refreshBtn">⟳ 刷新</button>
+            </div>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="搜索影片名称..." aria-label="搜索">
+            <button class="btn btn-primary" id="searchBtn">搜索</button>
+            <button class="btn" id="resetBtn">重置</button>
+        </div>
+
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-chip" data-filter="actresses">女优演员</button>
+            <button class="filter-chip" data-filter="?editorrate=3">评分最高</button>
+            <button class="filter-chip" data-filter="mostviewed">观看最多</button>
+            <button class="filter-chip" data-filter="tag/uncensored-75">无码影片</button>
+            <button class="filter-chip" data-filter="tag/vr-246">VR</button>
+            <button class="filter-chip" data-filter="tag/leaked-1457">无码流出</button>
+            <button class="filter-chip" data-filter="tag/gangbang-5">群交</button>
+            <button class="filter-chip" data-filter="tag/orgy-215">乱交</button>
+            <button class="filter-chip" data-filter="tag/white-actress-176">欧美女优</button>
+            <button class="filter-chip" data-filter="tag/decensored-1465">骑兵破解</button>
+            <button class="filter-chip" data-filter="tag/chinese-1543">中文字幕</button>
+            <button class="filter-chip" data-filter="tag/anal-22">肛交</button>
+            <button class="filter-chip" data-filter="tag/threesome-foursome-14">3P和4P</button>
+            <button class="filter-chip" data-filter="tag/lesbian-200">女同</button>
+            <button class="filter-chip" data-filter="tag/cheating-wife-51">出轨人妻</button>
+            <button class="filter-chip" data-filter="tag/cosplay-77">角色扮演</button>
+            <button class="filter-chip" data-filter="tag/amateur-29">素人</button>
+        </div>
+
+        <div class="stats" id="stats">加载中...</div>
+
+        <div class="movie-list" id="movieList">
+            <div class="loading"><div class="spinner"></div> 正在从 iJavTorrent 抓取数据...</div>
+        </div>
+
+        <!-- ★★★ 翻页按钮区域 ★★★ -->
+        <div class="pagination-bar" id="paginationBar" style="display:none;"></div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 兼容引导层 (ES5)
+        // ============================================================
+        (function() {
+            'use strict';
+
+            if (window.fongmiBridge || window.fm || window.fongmi) {
+                document.documentElement.classList.add('fm-native');
+            }
+
+            if (!Element.prototype.replaceChildren) {
+                Element.prototype.replaceChildren = function() {
+                    while (this.firstChild) this.removeChild(this.firstChild);
+                    for (var i = 0; i < arguments.length; i++) {
+                        var child = arguments[i];
+                        if (child) this.appendChild(child);
+                    }
+                };
+            }
+
+            if (!Element.prototype.matches) {
+                Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+            }
+            if (!Element.prototype.closest) {
+                Element.prototype.closest = function(s) {
+                    var el = this;
+                    do {
+                        if (el.matches(s)) return el;
+                        el = el.parentElement || el.parentNode;
+                    } while (el !== null && el.nodeType === 1);
+                    return null;
+                };
+            }
+
+            if (!Object.values) {
+                Object.values = function(obj) {
+                    var res = [];
+                    for (var k in obj) {
+                        if (Object.prototype.hasOwnProperty.call(obj, k)) res.push(obj[k]);
+                    }
+                    return res;
+                };
+            }
+            if (!Object.entries) {
+                Object.entries = function(obj) {
+                    var res = [];
+                    for (var k in obj) {
+                        if (Object.prototype.hasOwnProperty.call(obj, k)) res.push([k, obj[k]]);
+                    }
+                    return res;
+                };
+            }
+
+            if (!Array.from) {
+                Array.from = function(arr) {
+                    var res = [];
+                    for (var i = 0; i < arr.length; i++) res.push(arr[i]);
+                    return res;
+                };
+            }
+            if (!NodeList.prototype.forEach) {
+                NodeList.prototype.forEach = Array.prototype.forEach;
+            }
+            if (!HTMLCollection.prototype.forEach) {
+                HTMLCollection.prototype.forEach = Array.prototype.forEach;
+            }
+            if (!Array.prototype.includes) {
+                Array.prototype.includes = function(v) {
+                    for (var i = 0; i < this.length; i++) {
+                        if (this[i] === v) return true;
+                    }
+                    return false;
+                };
+            }
+
+            if (!String.prototype.includes) {
+                String.prototype.includes = function(s) { return this.indexOf(s) !== -1; };
+            }
+            if (!String.prototype.startsWith) {
+                String.prototype.startsWith = function(s) { return this.indexOf(s) === 0; };
+            }
+            if (!String.prototype.endsWith) {
+                String.prototype.endsWith = function(s) {
+                    var pos = this.length - s.length;
+                    return pos >= 0 && this.indexOf(s, pos) === pos;
+                };
+            }
+
+            if (!Array.prototype.flat) {
+                Array.prototype.flat = function(depth) {
+                    var d = depth || 1;
+                    var res = [];
+                    for (var i = 0; i < this.length; i++) {
+                        if (Array.isArray(this[i]) && d > 0) {
+                            res.push.apply(res, this[i].flat(d - 1));
+                        } else {
+                            res.push(this[i]);
+                        }
+                    }
+                    return res;
+                };
+            }
+            if (!Array.prototype.flatMap) {
+                Array.prototype.flatMap = function(fn) {
+                    return this.map(fn).flat(1);
+                };
+            }
+
+            if (!Promise.prototype.finally) {
+                Promise.prototype.finally = function(cb) {
+                    return this.then(
+                        function(v) { return Promise.resolve(cb()).then(function() { return v; }); },
+                        function(e) { return Promise.resolve(cb()).then(function() { throw e; }); }
+                    );
+                };
+            }
+
+            (function() {
+                var html = document.documentElement;
+                var test = document.createElement('div');
+                test.style.cssText = 'display:flex;gap:10px;position:absolute;visibility:hidden;height:0;width:0;';
+                var child = document.createElement('div');
+                child.style.cssText = 'width:10px;height:10px;';
+                test.appendChild(child);
+                test.appendChild(child.cloneNode());
+                document.body.appendChild(test);
+                var ok = test.scrollHeight > 10;
+                document.body.removeChild(test);
+                if (!ok) html.classList.add('no-layout-gap');
+            })();
+
+            (function() {
+                var html = document.documentElement;
+                var supports = window.CSS && CSS.supports && CSS.supports('width', 'min(100px, 200px)');
+                if (!supports) html.classList.add('no-css-functions');
+            })();
+
+            (function() {
+                var html = document.documentElement;
+                var test = document.createElement('div');
+                test.style.cssText = 'display:block;width:20px;aspect-ratio:1/1;position:absolute;visibility:hidden;height:auto;';
+                document.body.appendChild(test);
+                var ok = test.offsetHeight > 0;
+                document.body.removeChild(test);
+                if (!ok) html.classList.add('no-aspect-ratio');
+            })();
+
+            if (window.fongmiClient && window.fongmiClient.isLeanback) {
+                document.documentElement.classList.add('tv-mode');
+            } else {
+                var w = window.innerWidth || screen.width || 0;
+                var isTv = w >= 1280 && (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+                if (isTv) document.documentElement.classList.add('tv-mode');
+            }
+        })();
+
+        // ============================================================
+        // 主业务代码
+        // ============================================================
+
+        (function() {
+            'use strict';
+
+            var state = {
+                page: 1,
+                totalPages: 1,
+                currentFilter: 'actresses',  // ★ 默认第一个分类
+                searchKeyword: '',
+                loading: false,
+                items: [],
+                pageType: 'movie',
+                initialized: false,
+                isActressDetail: false
+            };
+
+            var dom = {
+                list: document.getElementById('movieList'),
+                stats: document.getElementById('stats'),
+                searchInput: document.getElementById('searchInput'),
+                statusText: document.getElementById('statusText'),
+                statusDot: document.getElementById('statusDot'),
+                toast: document.getElementById('toast'),
+                paginationBar: document.getElementById('paginationBar')
+            };
+
+            var toastTimer = null;
+
+            function showToast(msg, duration) {
+                duration = duration || 2000;
+                dom.toast.textContent = msg;
+                dom.toast.classList.add('show');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function() {
+                    dom.toast.classList.remove('show');
+                }, duration);
+            }
+
+            function setStatus(text, color) {
+                dom.statusText.textContent = text;
+                dom.statusDot.className = 'dot ' + (color || 'green');
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ============================================================
+            // buildUrl - 构建请求URL
+            // ============================================================
+            function buildUrl(page, keyword, filter) {
+                // ★ 所有URL都加时间戳防缓存
+                var ts = '_=' + Date.now();
+
+                if (keyword && keyword.trim()) {
+                    var url = 'https://ijavtorrent.com/?searchTerm=' + encodeURIComponent(keyword.trim());
+                    if (page > 1) url += '&page=' + page;
+                    url += '&' + ts;
+                    return url;
+                }
+
+                if (filter && filter.trim()) {
+                    if (filter.trim() === 'actresses') {
+                        if (page > 1) {
+                            return 'https://ijavtorrent.com/actresses?page=' + page + '&' + ts;
+                        }
+                        return 'https://ijavtorrent.com/actresses?' + ts;
+                    }
+                    var url = 'https://ijavtorrent.com/' + filter.trim();
+                    if (page > 1) {
+                        url += (url.indexOf('?') === -1 ? '?' : '&') + 'page=' + page;
+                    }
+                    url += (url.indexOf('?') === -1 ? '?' : '&') + ts;
+                    return url;
+                }
+
+			// 默认：女优列表
+			var url = 'https://ijavtorrent.com/actresses';
+			if (page > 1) {
+				url += '?page=' + page;  // ← 第1个参数用 ? 不是 &
+			}
+			url += (url.indexOf('?') === -1 ? '?' : '&') + ts;
+			return url;
+            }
+
+            // ---------- 使用 fm.req 抓取 ----------
+            function fetchPage(page, keyword, filter) {
+                if (state.loading) return Promise.reject(new Error('加载中...'));
+
+                state.loading = true;
+                setStatus('加载中...', 'yellow');
+
+                var url = buildUrl(page, keyword, filter);
+                console.log('fetchPage URL:', url);
+
+                if (typeof window.fm === 'undefined' || typeof window.fm.req !== 'function') {
+                    setStatus('需要 App 环境', 'red');
+                    dom.list.innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>请在 App 内打开此页面</p></div>';
+                    state.loading = false;
+                    return Promise.reject(new Error('fm.req 不可用'));
+                }
+
+                return window.fm.req(url, {
+                    method: 'GET',
+                    responseType: 'text',
+                    timeout: 30,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                    }
+                }).then(function(resp) {
+                    state.loading = false;
+                    if (resp.ok) {
+                        return parseHTML(resp.body, keyword, filter);
+                    } else {
+                        throw new Error('HTTP ' + resp.status + (resp.error ? ': ' + resp.error : ''));
+                    }
+                }).catch(function(err) {
+                    state.loading = false;
+                    setStatus('抓取失败', 'red');
+                    showToast('抓取失败: ' + err.message);
+                    throw err;
+                });
+            }
+
+            // ============================================================
+            // parseHTML - 解析HTML
+            // ============================================================
+            function parseHTML(html, keyword, filter) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+
+                var items = [];
+                var totalPages = 1;
+                var currentPage = 1;
+
+                var isActressPage = doc.querySelector('.actress-list') !== null || doc.querySelector('.actresses-list') !== null;
+                var isMoviePage = doc.querySelector('.video-item') !== null;
+
+                // ★★★ 解析分页信息 ★★★
+                var btnGroups = doc.querySelectorAll('.btn-group');
+				var paginationContainer = btnGroups.length > 1 ? btnGroups[btnGroups.length - 1] : btnGroups[0];
+                if (paginationContainer) {
+                    var links = paginationContainer.querySelectorAll('a');
+                    var maxPage = 1;
+                    links.forEach(function(a) {
+                        var href = a.getAttribute('href');
+                        if (href) {
+                            var match = href.match(/[?&](?:amp;)?page=(\d+)/);
+                            if (match) {
+                                var p = parseInt(match[1], 10);
+                                if (p > maxPage) maxPage = p;
+                            }
+                        }
+                        // 检查是否是当前页（btn-secondary 类）
+                        if (a.classList.contains('btn-secondary')) {
+                            var activeMatch = href.match(/[?&]page=(\d+)/);
+                            if (activeMatch) {
+                                currentPage = parseInt(activeMatch[1], 10);
+                            }
+                        }
+                    });
+                    if (maxPage > 1) totalPages = maxPage;
+                    
+                    // 如果没找到当前页标记，检查第1页链接是否被高亮（说明当前在第1页）
+                    if (currentPage === 1 && links.length > 0) {
+                        var firstPageLink = paginationContainer.querySelector('a[href$="/tag/uncensored-75"], a[href$="/mostviewed"], a[href$="/?editorrate=3"], a[href$="/actresses"]');
+                        if (firstPageLink && firstPageLink.classList.contains('btn-secondary')) {
+                            currentPage = 1;
+                        }
+                    }
+                }
+
+                // 如果分页没解析出总页数，但有 gonext
+                if (totalPages === 1) {
+                    var gonext = doc.querySelector('.gonext');
+                    if (gonext) {
+                        var href = gonext.getAttribute('href');
+                        if (href) {
+                            var match = href.match(/[?&](?:amp;)?page=(\d+)/);
+                            if (match) {
+                                // 当前页 = gonext页码 - 1
+                                var nextP = parseInt(match[1], 10);
+                                currentPage = nextP - 1;
+                                totalPages = 892;
+                            }
+                        }
+                    }
+                }
+
+                console.log('解析分页: currentPage=' + currentPage + ', totalPages=' + totalPages);
+
+                // ============================================================
+                // 女优列表解析
+                // ============================================================
+                if (isActressPage) {
+                    var actressItems = doc.querySelectorAll('.actress-list .col-md-3');
+                    actressItems.forEach(function(el) {
+                        try {
+                            var linkEl = el.querySelector('a[href^="/actress/"]');
+                            if (!linkEl) return;
+
+                            var href = linkEl.getAttribute('href');
+                            var idMatch = href.match(/-(\d+)\/?$/);
+                            var id = idMatch ? idMatch[1] : '';
+
+                            var divs = el.querySelectorAll('div');
+                            var fullName = '';
+                            var movieCount = 0;
+                            var birth = '';
+                            var body = '';
+
+                            if (divs.length > 2) {
+                                var nameLink = divs[2].querySelector('a');
+                                if (nameLink) {
+                                    var text = nameLink.textContent.trim();
+                                    fullName = text;
+                                    var countMatch = text.match(/\((\d+)\s*movies?\)/);
+                                    if (countMatch) movieCount = parseInt(countMatch[1], 10);
+                                }
+                            }
+
+                            if (divs.length > 3) {
+                                var birthText = divs[3].textContent.trim();
+                                if (birthText.match(/\d{2}\/\d{2}\/\d{4}\s*\(\d+\)/)) {
+                                    birth = birthText;
+                                }
+                            }
+
+                            if (divs.length > 4) {
+                                var bodyText = divs[4].textContent.trim();
+                                if (bodyText.match(/^[A-Z]\s*-\s*\d+\s*-\s*\d+\s*-\s*\d+\s*-\s*\d+\s*cm/)) {
+                                    body = bodyText;
+                                }
+                            }
+
+                            if (!fullName) {
+                                fullName = linkEl.textContent.trim();
+                                var cm = fullName.match(/\((\d+)\s*movies?\)/);
+                                if (cm) movieCount = parseInt(cm[1], 10);
+                            }
+
+                            var name = fullName;
+                            var nameMatch = fullName.match(/^(.*?)\s*\(/);
+                            if (nameMatch) name = nameMatch[1].trim();
+
+                            var img = el.querySelector('img');
+                            var poster = img ? img.getAttribute('src') : '';
+                            if (poster && typeof window.fm !== 'undefined' && window.fm.res) {
+                                poster = window.fm.res(poster, {
+                                    headers: { 'Referer': 'https://ijavtorrent.com/' }
+                                });
+                            }
+
+                            items.push({
+                                id: id,
+                                title: name,
+                                fullName: fullName,
+                                year: birth,
+                                rating: 0,
+                                tags: [],
+                                type: 'actress',
+                                poster: poster,
+                                proxyPoster: poster,
+                                torrents: [],
+                                views: 0,
+                                downloads: 0,
+                                url: href,
+                                birth: birth,
+                                body: body,
+                                movieCount: movieCount,
+                                isActress: true
+                            });
+                        } catch (e) {
+                            // 忽略单个解析错误
+                        }
+                    });
+
+                    state.pageType = 'actress';
+                    state.isActressDetail = false;
+
+                } else if (isMoviePage) {
+                    var movieItems = doc.querySelectorAll('.video-item');
+                    movieItems.forEach(function(el) {
+                        var item = parseMovieItem(el);
+                        if (item) items.push(item);
+                    });
+                    state.pageType = 'movie';
+                    state.isActressDetail = false;
+                } else {
+                    var genericItems = doc.querySelectorAll('.video-item, .movie-item, [data-movie-id]');
+                    genericItems.forEach(function(el) {
+                        var item = parseMovieItem(el);
+                        if (item) items.push(item);
+                    });
+                    state.pageType = 'movie';
+                    state.isActressDetail = false;
+                }
+
+                console.log('解析结果: items.length=' + items.length + ', currentPage=' + currentPage + ', totalPages=' + totalPages);
+
+                return {
+                    items: items,
+                    totalPages: totalPages,
+                    currentPage: currentPage,
+                    total: items.length
+                };
+            }
+
+            // ============================================================
+            // 解析单个影片（保持不变）
+            // ============================================================
+            function parseMovieItem(el) {
+                try {
+                    var titleEl = el.querySelector('.name a, .name span, .title a');
+                    var title = titleEl ? titleEl.textContent.trim() : '';
+                    if (!title) return null;
+
+                    var id = el.getAttribute('data-movie-id') || '';
+                    var link = el.querySelector('.name a');
+                    if (link) {
+                        var href = link.getAttribute('href');
+                        if (href) {
+                            var match = href.match(/\/movie\/([^\/]+)-(\d+)/);
+                            if (match) id = match[2] || id;
+                        }
+                    }
+
+                    var poster = '';
+                    var img = el.querySelector('.img-area img, .poster img, .mw-100');
+                    if (img) {
+                        poster = img.getAttribute('data-src') || '';
+
+                        if (!poster || poster.indexOf('runningheartijav') !== -1 || poster.indexOf('data:image') !== -1) {
+                            var srcset = img.getAttribute('srcset');
+                            if (srcset) {
+                                var urlMatches = srcset.match(/https?:\/\/[^\s,]+/g);
+                                if (urlMatches && urlMatches.length) {
+                                    poster = urlMatches[urlMatches.length - 1];
+                                }
+                            }
+                        }
+
+                        if (!poster || poster.indexOf('runningheartijav') !== -1 || poster.indexOf('data:image') !== -1) {
+                            poster = img.getAttribute('src') || '';
+                        }
+
+                        if (poster) {
+                            poster = poster.replace(/https:\/\/images\.ijavtorrent\.comhttps\/\//g, 'https://');
+                            poster = poster.replace(/https:\/\/images\.ijavtorrent\.comhttps:\/\//g, 'https://');
+                            poster = poster.replace(/https:\/\/images\.ijavtorrent\.comhttps\//g, 'https://');
+                            if (poster.indexOf('https://') !== poster.lastIndexOf('https://')) {
+                                var parts = poster.split('https://');
+                                poster = 'https://' + parts[parts.length - 1];
+                            }
+                            poster = poster.replace(/\?width=\d+/, '');
+                            poster = poster.replace(/&width=\d+/, '');
+                            poster = poster.replace(/\?$/, '');
+                            poster = poster.replace(/&$/, '');
+                        }
+                    }
+
+                    var proxyPoster = '';
+                    if (poster && typeof window.fm !== 'undefined' && window.fm.res) {
+                        proxyPoster = window.fm.res(poster, {
+                            headers: {
+                                'Referer': 'https://ijavtorrent.com/'
+                            }
+                        });
+                    }
+
+                    var year = '';
+                    var dateEl = el.querySelector('.mb-2 a, .date');
+                    if (dateEl) {
+                        var dateText = dateEl.textContent.trim();
+                        var dateMatch = dateText.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+                        if (dateMatch) year = dateMatch[3];
+                        else {
+                            var yearMatch = dateText.match(/(\d{4})/);
+                            if (yearMatch) year = yearMatch[1];
+                        }
+                    }
+
+                    var tags = [];
+                    var tagEls = el.querySelectorAll('.badge-secondary a, .tag');
+                    tagEls.forEach(function(t) {
+                        var text = t.textContent.trim();
+                        if (text) tags.push(text);
+                    });
+
+                    var type = 'all';
+                    tags.forEach(function(tag) {
+                        var t = tag.toLowerCase();
+                        if (t.indexOf('uncensored') !== -1 || t.indexOf('无码') !== -1) type = 'uncensored';
+                        if (t.indexOf('decensored') !== -1 || t.indexOf('破解') !== -1) type = 'decensored';
+                        if (t.indexOf('leaked') !== -1 || t.indexOf('流出') !== -1) type = 'leaked';
+                        if (t.indexOf('vr') !== -1) type = 'vr';
+                    });
+
+                    var rating = 0;
+                    var ratingEl = el.querySelector('.badge-warning a, .badge-warning');
+                    if (ratingEl) {
+                        var ratingText = ratingEl.textContent.trim();
+                        var ratingMatch = ratingText.match(/(\d+)/);
+                        if (ratingMatch) rating = parseInt(ratingMatch[1], 10);
+                    }
+
+                    var torrents = [];
+                    var torrentRows = el.querySelectorAll('.table tbody tr');
+
+                    torrentRows.forEach(function(row) {
+                        var magnetLink = row.querySelector('.magnet-click-track');
+                        var downloadLink = row.querySelector('.download-click-track');
+                        var sizeEl = row.querySelector('.fa-weight-hanging');
+                        var seedsEl = row.querySelector('td strong:first-child');
+                        var leechEl = row.querySelector('td strong:last-child');
+                        var dateEl2 = row.querySelector('.fa-calendar-alt');
+                        var typeBadge = row.querySelector('.badge');
+
+                        var magnet = magnetLink ? magnetLink.getAttribute('href') : '';
+                        var download = downloadLink ? downloadLink.getAttribute('href') : '';
+                        var size = sizeEl ? sizeEl.parentElement.textContent.trim() : '';
+                        var seeds = seedsEl ? seedsEl.parentElement.textContent.trim() : '0';
+                        var leech = leechEl ? leechEl.parentElement.textContent.trim() : '0';
+                        var date = dateEl2 ? dateEl2.parentElement.textContent.trim() : '';
+                        var ttype = typeBadge ? typeBadge.textContent.trim() : '';
+
+                        if (magnet || download) {
+                            torrents.push({
+                                magnet: magnet,
+                                download: download,
+                                size: size,
+                                seeds: parseInt(seeds, 10) || 0,
+                                leech: parseInt(leech, 10) || 0,
+                                date: date,
+                                type: ttype
+                            });
+                        }
+                    });
+
+                    if (!torrents.length) {
+                        var magnetLinks = el.querySelectorAll('a[href^="magnet:"]');
+                        magnetLinks.forEach(function(a) {
+                            var parent = a.closest('tr, td, .torrent-item, .mb-4');
+                            var size = '';
+                            var seeds = 0;
+                            var leech = 0;
+                            var date = '';
+                            var ttype = '';
+                            if (parent) {
+                                var sizeEl = parent.querySelector('.fa-weight-hanging');
+                                if (sizeEl) size = sizeEl.parentElement.textContent.trim();
+                                var seedsEl = parent.querySelector('strong:first-child');
+                                if (seedsEl) seeds = parseInt(seedsEl.parentElement.textContent.trim(), 10) || 0;
+                                var leechEl = parent.querySelector('strong:last-child');
+                                if (leechEl) leech = parseInt(leechEl.parentElement.textContent.trim(), 10) || 0;
+                                var dateEl2 = parent.querySelector('.fa-calendar-alt');
+                                if (dateEl2) date = dateEl2.parentElement.textContent.trim();
+                                var badge = parent.querySelector('.badge');
+                                if (badge) ttype = badge.textContent.trim();
+                            }
+                            torrents.push({
+                                magnet: a.getAttribute('href'),
+                                download: '',
+                                size: size,
+                                seeds: seeds,
+                                leech: leech,
+                                date: date,
+                                type: ttype
+                            });
+                        });
+                    }
+
+                    var views = 0;
+                    var viewEl = el.querySelector('.fa-eye + span, .pageview-value');
+                    if (viewEl) views = parseInt(viewEl.textContent.trim(), 10) || 0;
+
+                    var downloads = 0;
+                    var dlEl = el.querySelector('.fa-download + span, .download-value');
+                    if (dlEl) downloads = parseInt(dlEl.textContent.trim(), 10) || 0;
+
+                    return {
+                        id: id,
+                        title: title,
+                        year: year,
+                        rating: rating,
+                        tags: tags,
+                        type: type,
+                        poster: poster,
+                        proxyPoster: proxyPoster,
+                        torrents: torrents,
+                        views: views,
+                        downloads: downloads,
+                        url: link ? link.getAttribute('href') : '',
+                        isActress: false
+                    };
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            // ============================================================
+            // 渲染翻页按钮 ★★★ 新增 ★★★
+            // ============================================================
+            function renderPagination() {
+                var totalPages = state.totalPages;
+                var currentPage = state.page;
+
+                if (totalPages <= 1) {
+                    dom.paginationBar.style.display = 'none';
+                    return;
+                }
+
+                dom.paginationBar.style.display = 'flex';
+                var html = '';
+
+                // 上一页按钮
+                if (currentPage > 1) {
+                    html += '<button class="page-btn" data-page="' + (currentPage - 1) + '">◀ 上一页</button>';
+                } else {
+                    html += '<button class="page-btn disabled">◀ 上一页</button>';
+                }
+
+                // 页码按钮（显示前后各2页 + 首页 + 末页）
+                var pages = [];
+                pages.push(1);
+                for (var i = Math.max(2, currentPage - 2); i <= Math.min(totalPages - 1, currentPage + 2); i++) {
+                    pages.push(i);
+                }
+                if (totalPages > 1) pages.push(totalPages);
+
+                // 去重排序
+                var uniquePages = [];
+                pages.forEach(function(p) {
+                    if (uniquePages.indexOf(p) === -1) uniquePages.push(p);
+                });
+                uniquePages.sort(function(a, b) { return a - b; });
+
+                // 渲染页码
+                var lastPage = 0;
+                uniquePages.forEach(function(p) {
+                    if (p - lastPage > 1) {
+                        html += '<span class="page-info">...</span>';
+                    }
+                    if (p === currentPage) {
+                        html += '<button class="page-btn active">' + p + '</button>';
+                    } else {
+                        html += '<button class="page-btn" data-page="' + p + '">' + p + '</button>';
+                    }
+                    lastPage = p;
+                });
+
+                // 下一页按钮
+                if (currentPage < totalPages) {
+                    html += '<button class="page-btn" data-page="' + (currentPage + 1) + '">下一页 ▶</button>';
+                } else {
+                    html += '<button class="page-btn disabled">下一页 ▶</button>';
+                }
+
+                // 页码信息
+                html += '<span class="page-info">' + currentPage + ' / ' + totalPages + '</span>';
+
+                dom.paginationBar.innerHTML = html;
+
+                // 绑定点击事件
+                dom.paginationBar.querySelectorAll('.page-btn[data-page]').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var targetPage = parseInt(this.getAttribute('data-page'), 10);
+                        if (targetPage && targetPage !== state.page) {
+                            goToPage(targetPage);
+                        }
+                    });
+                });
+            }
+
+            // ★★★ 跳转到指定页 ★★★
+            function goToPage(page) {
+                if (state.loading) return;
+                state.page = page;
+                dom.list.innerHTML = '<div class="loading"><div class="spinner"></div> 加载第 ' + page + ' 页...</div>';
+                dom.paginationBar.style.display = 'none';
+
+                fetchPage(page, state.searchKeyword, state.currentFilter)
+                    .then(function(result) {
+                        render(result, false);
+                        // 滚动到顶部
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    })
+                    .catch(function(err) {
+                        dom.list.innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>加载失败: ' + escapeHtml(err.message) +
+                            '</p><button class="btn btn-primary" onclick="retryLoad()">重试</button></div>';
+                        dom.paginationBar.style.display = 'none';
+                        setStatus('错误', 'red');
+                    });
+            }
+
+            window.retryLoad = function() {
+                goToPage(state.page);
+            };
+
+            // ============================================================
+            // 渲染
+            // ============================================================
+            function render(result, append) {
+                append = append || false;
+                var items = result ? result.items : [];
+                var totalPages = result ? result.totalPages : 1;
+                var currentPage = result ? result.currentPage : 1;
+
+                state.totalPages = totalPages;
+                state.page = currentPage;
+                state.items = items;
+
+                if (state.pageType === 'actress') {
+                    dom.stats.textContent = '共 ' + state.items.length + ' 位女优 (第 ' + state.page + '/' + state.totalPages + ' 页)';
+                } else {
+                    dom.stats.textContent = '共 ' + state.items.length + ' 条结果 (第 ' + state.page + '/' + state.totalPages + ' 页)';
+                }
+
+                if (!state.items || !state.items.length) {
+                    dom.list.innerHTML = '<div class="empty"><div class="icon">📭</div><p>没有找到结果</p></div>';
+                    dom.paginationBar.style.display = 'none';
+                    setStatus('无结果', 'gray');
+                    return;
+                }
+
+                if (state.pageType === 'actress') {
+                    renderActressList(false);
+                } else {
+                    renderMovieList(false);
+                }
+
+                // ★ 渲染翻页按钮
+                renderPagination();
+
+                setStatus('就绪 (' + state.items.length + ' 条)', 'green');
+            }
+
+            // ---------- 渲染影片列表 ----------
+            function renderMovieList(append) {
+                var html = '';
+                
+                state.items.forEach(function(item, index) {
+                    var posterUrl = item.proxyPoster || item.poster || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140"%3E%3Crect fill="%23333" width="100" height="140"/%3E%3Ctext x="50" y="75" text-anchor="middle" fill="%23666" font-size="14" font-family="sans-serif"%3ENo Image%3C/text%3E%3C/svg%3E';
+
+                    var badgesHtml = '';
+                    if (item.rating) {
+                        badgesHtml += '<span class="badge rating">⭐ ' + item.rating + '</span>';
+                    }
+                    var typeLabel = '';
+                    if (item.type === 'uncensored') typeLabel = '无码';
+                    else if (item.type === 'decensored') typeLabel = '破解';
+                    else if (item.type === 'leaked') typeLabel = '流出';
+                    else if (item.type === 'vr') typeLabel = 'VR';
+                    if (typeLabel) {
+                        badgesHtml += '<span class="badge ' + item.type + '">' + typeLabel + '</span>';
+                    }
+
+                    var tagsHtml = '';
+                    var displayTags = item.tags.slice(0, 6);
+                    displayTags.forEach(function(tag) {
+                        tagsHtml += '<span class="tag">' + escapeHtml(tag) + '</span>';
+                    });
+
+                    var torrentsHtml = '';
+                    if (item.torrents && item.torrents.length) {
+                        item.torrents.slice(0, 3).forEach(function(t, idx) {
+                            var typeClass = '';
+                            var typeLabel2 = t.type || '';
+                            if (typeLabel2.indexOf('Uncen') !== -1 || typeLabel2.indexOf('无码') !== -1) typeClass = 'uncen';
+                            if (typeLabel2.indexOf('Decen') !== -1 || typeLabel2.indexOf('破解') !== -1) typeClass = 'decen';
+
+                            torrentsHtml += '<div class="torrent-item">' +
+                                (t.size ? '<span class="size">📦 ' + escapeHtml(t.size) + '</span>' : '') +
+                                (t.seeds ? '<span class="seeds">🌱 ' + t.seeds + '</span>' : '') +
+                                (t.leech ? '<span class="leech">💧 ' + t.leech + '</span>' : '') +
+                                (t.date ? '<span class="date">📅 ' + escapeHtml(t.date) + '</span>' : '') +
+                                (typeLabel2 ? '<span class="type-badge ' + typeClass + '">' + escapeHtml(typeLabel2) + '</span>' : '') +
+                                '<span class="actions">' +
+                                (t.magnet ? '<button class="btn btn-sm btn-primary play-btn" data-index="' + index + '" data-torrent="' + idx + '">▶ 播放</button>' : '') +
+                                (t.magnet ? '<button class="btn btn-sm magnet-btn" data-index="' + index + '" data-torrent="' + idx + '">🧲 磁力</button>' : '') +
+                                '</span>' +
+                                '</div>';
+                        });
+                        if (item.torrents.length > 3) {
+                            torrentsHtml += '<div style="color:var(--text-secondary);font-size:12px;padding:2px 8px;">+ ' + (item.torrents.length - 3) + ' 更多种子</div>';
+                        }
+                    } else {
+                        torrentsHtml = '<div style="color:var(--text-secondary);font-size:13px;padding:4px 0;">暂无磁力链接</div>';
+                    }
+
+                    var metaHtml = '';
+                    if (item.year) metaHtml += '<span>📅 ' + escapeHtml(item.year) + '</span>';
+                    if (item.views) metaHtml += '<span>👁️ ' + item.views + '</span>';
+                    if (item.downloads) metaHtml += '<span>⬇️ ' + item.downloads + '</span>';
+                    if (item.torrents && item.torrents.length) {
+                        metaHtml += '<span>🧲 ' + item.torrents.length + ' 个种子</span>';
+                    }
+
+                    html += '<div class="movie-card" data-index="' + index + '" data-id="' + item.id + '">' +
+                        '<div class="card-body">' +
+                        '<div class="poster-wrap">' +
+                        '<img src="' + posterUrl + '" loading="lazy" decoding="async" alt="' + escapeHtml(item.title) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+                        '<div class="placeholder" style="display:none;">📸</div>' +
+                        '<div class="badges">' + badgesHtml + '</div>' +
+                        '</div>' +
+                        '<div class="info">' +
+                        '<div class="title">' + escapeHtml(item.title) + '</div>' +
+                        (metaHtml ? '<div class="meta">' + metaHtml + '</div>' : '') +
+                        (tagsHtml ? '<div class="tags">' + tagsHtml + '</div>' : '') +
+                        '<div class="torrent-list">' + torrentsHtml + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                });
+
+                if (append) {
+                    dom.list.insertAdjacentHTML('beforeend', html);
+                } else {
+                    dom.list.innerHTML = html;
+                }
+
+                bindMovieEvents();
+            }
+
+            // ---------- 绑定影片事件 ----------
+            function bindMovieEvents() {
+                dom.list.querySelectorAll('.play-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        var idx = parseInt(this.getAttribute('data-index'), 10);
+                        var tidx = parseInt(this.getAttribute('data-torrent'), 10);
+                        var item = state.items[idx];
+                        if (item && item.torrents && item.torrents[tidx]) {
+                            playItem(item, item.torrents[tidx]);
+                        }
+                    });
+                });
+
+                dom.list.querySelectorAll('.magnet-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        var idx = parseInt(this.getAttribute('data-index'), 10);
+                        var tidx = parseInt(this.getAttribute('data-torrent'), 10);
+                        var item = state.items[idx];
+                        if (item && item.torrents && item.torrents[tidx]) {
+                            showMagnet(item.torrents[tidx]);
+                        }
+                    });
+                });
+
+                dom.list.querySelectorAll('.movie-card').forEach(function(el) {
+                    el.addEventListener('click', function() {
+                        var idx = parseInt(this.getAttribute('data-index'), 10);
+                        var item = state.items[idx];
+                        if (item) showDetail(item);
+                    });
+                });
+            }
+
+            // ============================================================
+            // 渲染女优列表
+            // ============================================================
+            function renderActressList(append) {
+                var html = '';
+                state.items.forEach(function(item, index) {
+                    var posterUrl = item.poster || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140"%3E%3Crect fill="%23333" width="100" height="140"/%3E%3Ctext x="50" y="75" text-anchor="middle" fill="%23666" font-size="14" font-family="sans-serif"%3ENo Image%3C/text%3E%3C/svg%3E';
+                    
+                    var starsHtml = '';
+                    for (var i = 0; i < 6; i++) {
+                        starsHtml += '<i class="far fa-star" style="color: rgba(243, 59, 69, 0.6)"></i>';
+                    }
+
+                    var actressUrl = item.url || '/actress/' + item.title.toLowerCase().replace(/\s+/g, '-') + '-' + item.id + '/';
+
+                    html += '<div class="movie-card actress-card" data-index="' + index + '" data-id="' + item.id + '" data-url="' + actressUrl + '">' +
+                        '<div class="card-body" style="flex-direction: row; align-items: center;">' +
+                        '<div class="poster-wrap">' +
+                        '<img src="' + posterUrl + '" loading="lazy" decoding="async" alt="' + escapeHtml(item.title) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+                        '<div class="placeholder" style="display:none;">👩</div>' +
+                        '</div>' +
+                        '<div class="info" style="padding-left: 16px;">' +
+                        '<div class="title" style="font-size: 18px;">' + escapeHtml(item.fullName || item.title) + '</div>' +
+                        '<div class="meta">' +
+                            (item.movieCount ? '<span>🎬 ' + item.movieCount + ' 部影片</span>' : '') +
+                            (item.birth ? '<span>📅 ' + escapeHtml(item.birth) + '</span>' : '') +
+                            (item.body ? '<span>📏 ' + escapeHtml(item.body) + '</span>' : '') +
+                        '</div>' +
+                        '<div>' + starsHtml + '</div>' +
+                        '<div class="torrent-list" style="margin-top:8px;">' +
+                        '<button class="btn btn-primary btn-sm view-actress-btn" data-url="' + actressUrl + '" data-name="' + escapeHtml(item.title) + '">🔍 查看全部影片</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                });
+
+                if (append) {
+                    dom.list.insertAdjacentHTML('beforeend', html);
+                } else {
+                    dom.list.innerHTML = html;
+                }
+
+                dom.list.querySelectorAll('.view-actress-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        var url = this.getAttribute('data-url');
+                        if (url) {
+                            loadActressPage(url);
+                        }
+                    });
+                });
+
+                dom.list.querySelectorAll('.actress-card').forEach(function(el) {
+                    el.addEventListener('click', function() {
+                        var url = this.getAttribute('data-url');
+                        if (url) {
+                            loadActressPage(url);
+                        }
+                    });
+                });
+            }
+
+            // ---------- 加载女优个人页面 ----------
+            function loadActressPage(url) {
+                if (state.loading) return;
+                state.loading = true;
+                state.isActressDetail = true;
+                setStatus('加载女优影片...', 'yellow');
+                dom.list.innerHTML = '<div class="loading"><div class="spinner"></div> 加载女优影片...</div>';
+                dom.paginationBar.style.display = 'none';
+
+                var fullUrl = 'https://ijavtorrent.com' + url;
+                if (!url.startsWith('http')) {
+                    fullUrl = 'https://ijavtorrent.com' + (url.startsWith('/') ? '' : '/') + url;
+                }
+
+                if (typeof window.fm === 'undefined' || typeof window.fm.req !== 'function') {
+                    setStatus('需要 App 环境', 'red');
+                    dom.list.innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>请在 App 内打开此页面</p></div>';
+                    state.loading = false;
+                    return;
+                }
+
+                window.fm.req(fullUrl, {
+                    method: 'GET',
+                    responseType: 'text',
+                    timeout: 30,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                    }
+                }).then(function(resp) {
+                    state.loading = false;
+                    if (resp.ok) {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(resp.body, 'text/html');
+                        var items = [];
+                        
+                        var movieItems = doc.querySelectorAll('.video-item');
+                        movieItems.forEach(function(el) {
+                            var item = parseMovieItem(el);
+                            if (item) items.push(item);
+                        });
+
+                        if (items.length === 0) {
+                            movieItems = doc.querySelectorAll('.movie-item, [data-movie-id]');
+                            movieItems.forEach(function(el) {
+                                var item = parseMovieItem(el);
+                                if (item) items.push(item);
+                            });
+                        }
+
+                        state.pageType = 'movie';
+                        state.items = items;
+                        state.currentFilter = '';
+                        state.searchKeyword = '';
+                        state.totalPages = 1;
+                        state.page = 1;
+                        state.isActressDetail = false;
+
+                        var actressName = doc.querySelector('h1') ? doc.querySelector('h1').textContent.trim() : '';
+                        dom.stats.textContent = '共 ' + items.length + ' 条结果 (女优: ' + actressName + ')';
+                        
+                        if (items.length > 0) {
+                            renderMovieList(false);
+                            dom.paginationBar.style.display = 'none';
+                            setStatus('就绪 (' + items.length + ' 条)', 'green');
+                        } else {
+                            dom.list.innerHTML = '<div class="empty"><div class="icon">📭</div><p>该女优暂无影片数据</p></div>';
+                            dom.paginationBar.style.display = 'none';
+                            setStatus('无影片', 'gray');
+                        }
+                    } else {
+                        throw new Error('HTTP ' + resp.status);
+                    }
+                }).catch(function(err) {
+                    state.loading = false;
+                    state.isActressDetail = false;
+                    setStatus('加载失败', 'red');
+                    dom.list.innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>加载女优影片失败: ' + escapeHtml(err.message) + '</p><button class="btn btn-primary" onclick="location.reload()">重试</button></div>';
+                    dom.paginationBar.style.display = 'none';
+                    showToast('加载失败: ' + err.message);
+                });
+            }
+
+            // ---------- 播放 ----------
+            function playItem(item, torrent) {
+                if (!torrent || !torrent.magnet) {
+                    showToast('没有磁力链接');
+                    return;
+                }
+
+                if (typeof window.fm !== 'undefined' && window.fm.pan && window.fm.pan.play) {
+                    window.fm.pan.play({
+                        type: 'magnet',
+                        url: torrent.magnet,
+                        title: item.title,
+                        pic: item.poster || '',
+                        wallPic: ''
+                    }).catch(function(e) {
+                        showToast('播放失败: ' + e.message);
+                    });
+                } else {
+                    copyToClipboard(torrent.magnet);
+                    showToast('磁力链接已复制，请在外部打开');
+                }
+            }
+
+            function showMagnet(torrent) {
+                if (!torrent || !torrent.magnet) {
+                    showToast('没有磁力链接');
+                    return;
+                }
+                copyToClipboard(torrent.magnet);
+                showToast('磁力链接已复制');
+            }
+
+            function showDetail(item) {
+                if (!item) return;
+                var msg = '📽️ ' + item.title + '\n';
+                if (item.year) msg += '📅 ' + item.year + '\n';
+                if (item.rating) msg += '⭐ ' + item.rating + '\n';
+                if (item.tags && item.tags.length) msg += '🏷️ ' + item.tags.slice(0, 6).join(', ') + '\n';
+                if (item.torrents && item.torrents.length) {
+                    msg += '\n🧲 种子 (' + item.torrents.length + ' 个):\n';
+                    item.torrents.slice(0, 5).forEach(function(t, i) {
+                        msg += '  ' + (i + 1) + '. ' + (t.size || '?') + ' 🌱' + t.seeds + ' 💧' + t.leech + '\n';
+                    });
+                    if (item.torrents.length > 5) msg += '  ... 共 ' + item.torrents.length + ' 个\n';
+                }
+                showToast(msg, 4000);
+            }
+
+            function copyToClipboard(text) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).catch(function() { fallbackCopy(text); });
+                } else {
+                    fallbackCopy(text);
+                }
+            }
+
+            function fallbackCopy(text) {
+                var textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                document.body.removeChild(textarea);
+            }
+
+            // ---------- 搜索和过滤 ----------
+            function doSearch() {
+                var keyword = dom.searchInput.value.trim();
+                if (!keyword) {
+                    showToast('请输入搜索关键词');
+                    return;
+                }
+                state.searchKeyword = keyword;
+                state.currentFilter = '';
+                state.page = 1;
+                state.pageType = 'movie';
+                state.isActressDetail = false;
+                document.querySelectorAll('.filter-chip').forEach(function(chip) {
+                    chip.classList.toggle('active', false);
+                });
+                loadPage(1);
+            }
+
+            function doFilter(filter) {
+                state.currentFilter = filter;
+                state.searchKeyword = '';
+                state.page = 1;
+                state.pageType = 'movie';
+                state.isActressDetail = false;
+                dom.searchInput.value = '';
+                document.querySelectorAll('.filter-chip').forEach(function(chip) {
+                    chip.classList.toggle('active', chip.getAttribute('data-filter') === filter);
+                });
+                loadPage(1);
+            }
+
+            function resetAll() {
+                dom.searchInput.value = '';
+                state.searchKeyword = '';
+                state.currentFilter = 'actresses';  // ★ 重置为第一个分类
+                state.page = 1;
+                state.pageType = 'movie';
+                state.isActressDetail = false;
+                document.querySelectorAll('.filter-chip').forEach(function(chip) {
+                    chip.classList.toggle('active', chip.getAttribute('data-filter') === 'actresses');
+                });
+                loadPage(1);
+            }
+
+            // ---------- 加载 ----------
+            function loadPage(page) {
+                state.page = page || 1;
+                dom.list.innerHTML = '<div class="loading"><div class="spinner"></div> 加载中...</div>';
+                dom.paginationBar.style.display = 'none';
+
+                fetchPage(state.page, state.searchKeyword, state.currentFilter)
+                    .then(function(result) {
+                        render(result, false);
+                    })
+                    .catch(function(err) {
+                        dom.list.innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>加载失败: ' + escapeHtml(err.message) +
+                            '</p><button class="btn btn-primary" onclick="retryLoad()">重试</button></div>';
+                        dom.paginationBar.style.display = 'none';
+                        setStatus('错误', 'red');
+                    });
+            }
+
+            // ============================================================
+            // 等待 fm 就绪后再初始化
+            // ============================================================
+            function waitForFm(callback, maxAttempts) {
+                maxAttempts = maxAttempts || 30;
+                var attempts = 0;
+
+                function check() {
+                    attempts++;
+                    if (typeof window.fm !== 'undefined' && typeof window.fm.req === 'function') {
+                        callback();
+                        return;
+                    }
+
+                    if (attempts >= maxAttempts) {
+                        callback();
+                        return;
+                    }
+
+                    setTimeout(check, 100);
+                }
+
+                check();
+            }
+
+            // ---------- 初始化 ----------
+            function init() {
+                if (state.initialized) return;
+                state.initialized = true;
+
+                // ★ 高亮第一个分类按钮
+                document.querySelectorAll('.filter-chip').forEach(function(chip) {
+                    chip.classList.toggle('active', chip.getAttribute('data-filter') === 'actresses');
+                });
+
+                document.getElementById('searchBtn').addEventListener('click', doSearch);
+                document.getElementById('resetBtn').addEventListener('click', resetAll);
+                document.getElementById('refreshBtn').addEventListener('click', function() {
+                    loadPage(state.page);
+                });
+
+                dom.searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') doSearch();
+                });
+
+                document.querySelectorAll('.filter-chip').forEach(function(chip) {
+                    chip.addEventListener('click', function() {
+                        doFilter(this.getAttribute('data-filter'));
+                    });
+                });
+
+                if (typeof window.fm === 'undefined' || typeof window.fm.req !== 'function') {
+                    setStatus('需要 App 环境', 'red');
+                    dom.list.innerHTML = '<div class="empty"><div class="icon">⚠️</div><p>请在 App 内打开此页面<br><small>如果已在 App 内，请尝试刷新</small></p></div>';
+                    showToast('⚠️ fm.req 不可用，请确保在 App 内打开', 4000);
+                    return;
+                }
+
+                setStatus('就绪', 'green');
+                loadPage(1);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    waitForFm(init);
+                });
+            } else {
+                waitForFm(init);
+            }
+
+        })();
+    </script>
+</body>
+</html>
