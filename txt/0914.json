@@ -78,6 +78,17 @@
             "playerType": 2
         },
         
+         {
+            "key": "py_片库.py",
+            "name": "📱片库ᵖʸ｜APP",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/片库.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
         
          {
             "key": "py_韩剧秒播.py",
