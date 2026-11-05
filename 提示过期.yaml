@@ -1,0 +1,4 @@
+proxies:
+    - { name: 套餐订阅已过期！, type: ss, server: 127.0.0.1, port: 7800, cipher: aes-128-gcm, password: f52098d8-7b9c-4cf3-8805-e4df6948438a, udp: true }
+    - { name: 请去官网续费套餐, type: ss, server: 127.0.0.1, port: 7800, cipher: aes-128-gcm, password: f52098d8-7b9c-4cf3-8805-e4df6948438a, udp: true }
+    - { name: '微信：8047169', type: ss, server: 127.0.0.1, port: 7800, cipher: aes-128-gcm, password: f52098d8-7b9c-4cf3-8805-e4df6948438a, udp: true }
