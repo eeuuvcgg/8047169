@@ -921,6 +921,21 @@
                 ]
             }
         },
+         {
+            "key": "快映",
+            "name": "??｜快映｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "http://38.76.197.172:12521"
+                ]
+            }
+        },
      
         {
             "key": "KuaKeS",
