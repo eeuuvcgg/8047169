@@ -922,8 +922,23 @@
             }
         },
          {
+            "key": "闪电",
+            "name": "🌹｜闪电｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "http://shandian.blog"
+                ]
+            }
+        },
+         {
             "key": "快映",
-            "name": "??｜快映｜网盘",
+            "name": "🌹｜快映｜网盘",
             "type": 3,
             "api": "csp_MacCMS",
             "searchable": 1,
@@ -933,6 +948,156 @@
             "ext": {
                 "site": [
                     "http://38.76.197.172:12521"
+                ]
+            }
+        },
+         {
+            "key": "观影",
+            "name": "🌹｜观影｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://www.xn--10vr61a3xc5x3b.com"
+                ]
+            }
+        },
+        {
+            "key": "花卷",
+            "name": "🌹｜花卷｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://www.hjzhencai.top"
+                ]
+            }
+        },
+         {
+            "key": "观影",
+            "name": "🌹｜观影｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://www.xn--10vr61a3xc5x3b.com"
+                ]
+            }
+        },
+         {
+            "key": "七味",
+            "name": "🌹｜七味｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://www.qwmkv.com"
+                ]
+            }
+        },
+         {
+            "key": "原盘",
+            "name": "🌹｜原盘｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://4kzn.cc"
+                ]
+            }
+        },
+         {
+            "key": "剧透",
+            "name": "🌹｜剧透｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://4kzn.cc"
+                ]
+            }
+        }, {
+            "key": "立播",
+            "name": "🌹｜立播｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://www.libvio.pw"
+                ]
+            }
+        },
+         {
+            "key": "片库",
+            "name": "🌹｜片库｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://4k01.pianku.online"
+                ]
+            }
+        },
+         {
+            "key": "蜗牛",
+            "name": "🌹｜蜗牛｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://wn4k.com"
+                ]
+            }
+        },
+
+         {
+            "key": "移动",
+            "name": "🌹｜移动｜网盘",
+            "type": 3,
+            "api": "csp_MacCMS",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 0,
+            "ext": {
+                "site": [
+                    "https://vidsite.cloudseekr.com"
                 ]
             }
         },
