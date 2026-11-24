@@ -31,52 +31,7 @@
             "quickSearch": 0,
             "filterable": 1
         },
-        
-
-     
       
-        
-       
-         {
-            "key": "py_瓜子影视",
-            "name": "📱瓜子ᵖʸ｜APP",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/瓜子影视.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
-        },
-        {
-            "key": "可可",
-            "name": "📱可可ʲˢᵒⁿ｜APP",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/drpy_libs/drpy2.min.js",
-            "ext": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/js/可可影视.js"
-        },
-         {
-            "key": "py_可可",
-            "name": "📱可可ᵖʸ｜APP",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/可可.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
-        },
-         {
-            "key": "py_咕噜咕噜.py",
-            "name": "📱咕噜ᵖʸ｜APP",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/咕噜咕噜.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
-        },
          {
             "key": "py_枫叶.py",
             "name": "📱枫叶ᵖʸ｜4K",
@@ -154,7 +109,35 @@
             "playerType": 2
         },
 
-        
+         {
+            "key": "py_瓜子影视",
+            "name": "📱瓜子ᵖʸ｜APP",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/瓜子影视.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+        {
+            "key": "可可",
+            "name": "📱可可ʲˢᵒⁿ｜APP",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/drpy_libs/drpy2.min.js",
+            "ext": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/js/可可影视.js"
+        },
+         {
+            "key": "py_可可",
+            "name": "📱可可ᵖʸ｜APP",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/可可.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
          {
             "key": "py_片库.py",
             "name": "📱片库ᵖʸ｜APP",
