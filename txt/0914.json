@@ -75,16 +75,6 @@
             "quickSearch": 1,
             "filterable": 1,
             "playerType": 2
-        },{
-            "key": "py_下饭.py",
-            "name": "📱下饭ᵖʸ｜4K",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]下饭.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
         },
 {
             "key": "py_影探.py",
@@ -97,17 +87,7 @@
             "filterable": 1,
             "playerType": 2
         },
-{
-            "key": "py_云播.py",
-            "name": "📱云播ᵖʸ｜4K",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]云播.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
-        },
+
 
          {
             "key": "py_瓜子影视",
