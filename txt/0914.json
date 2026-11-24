@@ -78,16 +78,82 @@
             "playerType": 2
         },
          {
-            "key": "py_枫叶",
-            "name": "📱枫叶ᵖʸ｜APP",
+            "key": "py_枫叶.py",
+            "name": "📱枫叶ᵖʸ｜4K",
             "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/枫叶影院.py",
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]枫叶.py",
             "searchable": 1,
             "changeable": 1,
             "quickSearch": 1,
             "filterable": 1,
             "playerType": 2
         },
+{
+            "key": "py_咕噜.py",
+            "name": "📱咕噜ᵖʸ｜4K",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]咕噜.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+{
+            "key": "py_[4K]河豚.py",
+            "name": "📱河豚ᵖʸ｜4K",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]河豚.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+{
+            "key": "py_[4K]片帝.py",
+            "name": "📱片帝ᵖʸ｜4K",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]片帝.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },{
+            "key": "py_下饭.py",
+            "name": "📱下饭ᵖʸ｜4K",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]下饭.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+{
+            "key": "py_影探.py",
+            "name": "📱影探ᵖʸ｜4K",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]影探.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+{
+            "key": "py_云播.py",
+            "name": "📱云播ᵖʸ｜4K",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]云播.py",
+            "searchable": 1,
+            "changeable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2
+        },
+
         
          {
             "key": "py_片库.py",
