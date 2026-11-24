@@ -76,18 +76,6 @@
             "filterable": 1,
             "playerType": 2
         },
-{
-            "key": "py_影探.py",
-            "name": "📱影探ᵖʸ｜4K",
-            "type": 3,
-            "api": "https://raw.githubusercontent.com/eeuuvcgg/8047169/refs/heads/main/txt/py/[4K]影探.py",
-            "searchable": 1,
-            "changeable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playerType": 2
-        },
-
 
          {
             "key": "py_瓜子影视",
